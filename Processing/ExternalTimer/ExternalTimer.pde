@@ -3,7 +3,7 @@ import processing.serial.*;
 int numPorts=0;  // the number o
 int maxPorts=24; // maximum number of serial ports
 
-Serial[] ledSerial = new Serial[maxPorts];     // each port's actual Serial port
+Serial[] mySerial = new Serial[maxPorts];     // each port's actual Serial port
 boolean[] ledLayout = new boolean[maxPorts];   // layout of rows, true = even is left->right
 int errorCount=0;
 
@@ -31,9 +31,9 @@ float [] aveArray = new float[maxLoops]; // array to hold all the totalTime valu
 void draw()
 {
   byte[] inBuffer = new byte[1];
-  while ( ledSerial[0].available() > 0) {
-    inBuffer = ledSerial[0].readBytes();
-    ledSerial[0].readBytes(inBuffer);
+  while ( mySerial[0].available() > 0) {
+    inBuffer = mySerial[0].readBytes();
+    mySerial[0].readBytes(inBuffer);
     if (inBuffer != null) {
        byte inBuf = inBuffer[0];
       if(inBuf == Start ){
@@ -69,9 +69,9 @@ void serialConfigure(String portName) {
     return;
   }
   try {
-    ledSerial[numPorts] = new Serial(this, portName, 115200);
-    if (ledSerial[numPorts] == null) throw new NullPointerException();
-    ledSerial[numPorts].write('?');
+    mySerial[numPorts] = new Serial(this, portName, 115200);
+    if (mySerial[numPorts] == null) throw new NullPointerException();
+    mySerial[numPorts].write('?');
   } catch (Throwable e) {
     println("Serial port " + portName + " does not exist or is non-functional");
     errorCount++;
